@@ -1,0 +1,8 @@
+/home/hr/sylar-v2.0/build/CMakeFiles/sylar.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/test.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/test_thread.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/test_macro.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/test_fiber.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/test_scheduler.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/edit_cache.dir
+/home/hr/sylar-v2.0/build/CMakeFiles/rebuild_cache.dir
