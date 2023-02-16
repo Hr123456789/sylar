@@ -109,6 +109,7 @@ int connect_with_timeout(int fd, const struct sockaddr* addr, socklen_t addrlen,
     if(!sylar::t_hook_enable) {
         return connect_f(fd, addr, addrlen);
     }
+    
 }
 
 }
