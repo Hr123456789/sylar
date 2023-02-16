@@ -62,6 +62,55 @@ unsigned int sleep(unsigned int seconds) {
     return 0;
 }
 
+int usleep(useconds_t usec) {
+    if(!sylar::t_hook_enable) {
+        return usleep_f(usec);
+    }
+    sylar::Fiber::ptr fiber = sylar::Fiber::GetThis();
+    sylar::IOManager* iom = sylar::IOManager::GetThis();
+    iom->addTimer(usec / 1000, std::bind((void(sylar::Scheduler::*)
+            (sylar::Fiber::ptr, int thread))&sylar::IOManager::schedule
+            ,iom, fiber, -1));
+    sylar::Fiber::YieldToHold();
+    return 0;
+}
+
+int nanosleep(const struct timespec *req, struct timespec *rem) {
+    if(!sylar::t_hook_enable) {
+        return nanosleep_f(req, rem);
+    }
+
+    int timeout_ms = req->tv_sec * 1000 + req->tv_nsec / 1000 / 1000;
+    //获取当前协程
+    sylar::Fiber::ptr fiber = sylar::Fiber::GetThis();
+    //获取IO管理器
+    sylar::IOManager* iom = sylar::IOManager::GetThis();
+    //添加定时器，使用定时器实现睡眠
+    iom->addTimer(timeout_ms, std::bind((void(sylar::Scheduler::*)
+            (sylar::Fiber::ptr, int thread))&sylar::IOManager::schedule
+            ,iom, fiber, -1));
+    sylar::Fiber::YieldToHold();
+    return 0;
+}
+
+int socket(int domain, int type, int protocol) {
+    if(!sylar::t_hook_enable) {
+        return socket_f(domain, type, protocol);
+    }
+    int fd = socket_f(domain, type, protocol);
+    if(fd == -1) {
+        return fd;
+    }
+    sylar::FdMgr::GetInstance()->get(fd, true);
+    return fd;
+}
+
+int connect_with_timeout(int fd, const struct sockaddr* addr, socklen_t addrlen, uint64_t timeout_ms) {
+    if(!sylar::t_hook_enable) {
+        return connect_f(fd, addr, addrlen);
+    }
+}
+
 }
 
 }
