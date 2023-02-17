@@ -1,6 +1,12 @@
 #ifndef __SYLAR_HOOK_H__
 #define __SYLAR_HOOK_H__
 
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/type.h>
+#include <sys/socket.h>
+#include <stdint.h>
+#include <unistd.h>
 namespace sylar {
     //当前线程是否hook
     bool is_hook_enable();
